@@ -22,7 +22,15 @@ public class ReimbursementDaoJdbc implements ReimbursementDao {
 	
 	@Override
 	public Reimbursement findById(int id) {
-		// TODO Auto-generated method stub
+		try (Connection conn = ConnectionUtil.getConnection()) {
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM ers_reimbursement WHERE reimb_id = ?");
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			return extractFromResultSet(rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// GET /{id}
 		return null;
 	}
 
@@ -45,25 +53,52 @@ public class ReimbursementDaoJdbc implements ReimbursementDao {
 
 	@Override
 	public List<Reimbursement> findAllByUser(User user) {
-		// TODO Auto-generated method stub
+		int id = user.getId();
+		try (Connection conn = ConnectionUtil.getConnection()){
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM ers_reimbursement WHERE reimb_author = ?");
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			List<Reimbursement> reimbursements = new ArrayList<>();
+			while (rs.next()) {
+				reimbursements.add(extractFromResultSet(rs));
+			}
+			return reimbursements;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// GET /user/{id}
 		return null;
 	}
 
 	@Override
 	public List<Reimbursement> findAllByStatus(ReimbursementStatus status) {
-		// TODO Auto-generated method stub
+		int id = ReimbursementStatus.getIndex(status);
+		try (Connection conn = ConnectionUtil.getConnection()) {
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM ers_reimbursement WHERE reimb_status_id = ?");
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			List<Reimbursement> reimbursements = new ArrayList<>();
+			while (rs.next()) {
+				reimbursements.add(extractFromResultSet(rs));
+			}
+			return reimbursements;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// GET /status/{id}
 		return null;
 	}
 
 	@Override
 	public void resolveReimbursement(int id, ReimbursementStatus status) {
 		// TODO Auto-generated method stub
-		
+		// POST /status/{id}
 	}
 
 	@Override
 	public int save(Reimbursement newReimbursement) {
 		// TODO Auto-generated method stub
+		// POST /
 		return 0;
 	}
 

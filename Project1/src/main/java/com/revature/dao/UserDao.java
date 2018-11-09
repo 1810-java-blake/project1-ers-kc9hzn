@@ -1,6 +1,5 @@
 package com.revature.dao;
 
-import javax.servlet.http.HttpSession;
 import com.revature.model.User;
 
 public interface UserDao {

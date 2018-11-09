@@ -12,9 +12,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
 	
 	@Override
 	public Reimbursement findById(int id) {
-		// TODO Auto-generated method stub
-		// GET
-		return null;
+		return rd.findById(id);
 	}
 
 	@Override
@@ -24,30 +22,22 @@ public class ReimbursementServiceImpl implements ReimbursementService {
 
 	@Override
 	public List<Reimbursement> findAllByUser(User user) {
-		// TODO Auto-generated method stub
-		// GET
-		return null;
+		return rd.findAllByUser(user);
 	}
 
 	@Override
 	public List<Reimbursement> findAllByStatus(ReimbursementStatus status) {
-		// TODO Auto-generated method stub
-		// GET
-		return null;
+		return rd.findAllByStatus(status);
 	}
 
 	@Override
 	public void resolveReimbursement(int id, ReimbursementStatus status) {
-		// TODO Auto-generated method stub
-		// POST
 		
 	}
 
 	@Override
 	public int save(Reimbursement newReimbursement) {
-		// TODO Auto-generated method stub
-		// POST
-		return 0;
+		return rd.save(newReimbursement);
 	}
 
 }
