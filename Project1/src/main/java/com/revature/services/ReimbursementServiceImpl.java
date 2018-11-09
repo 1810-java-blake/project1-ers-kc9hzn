@@ -26,7 +26,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
 	}
 
 	@Override
-	public List<Reimbursement> findAllByStatus(ReimbursementStatus status) {
+	public List<Reimbursement> findAllByStatus(ReimbursementStatus status) throws ArrayIndexOutOfBoundsException {
 		return rd.findAllByStatus(status);
 	}
 

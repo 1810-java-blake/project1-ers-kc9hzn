@@ -43,15 +43,20 @@ public class ReimbursementController {
 		String[] uriArray = uri.split("/");
 		if (uriArray.length == 1) {
 			List<Reimbursement> reimbursements = rs.findAll();
-			ResponseMapper.convertAndAttach(reimbursements, resp);
-			return;
+			if (reimbursements != null) {
+				ResponseMapper.convertAndAttach(reimbursements, resp);
+				return;
+			} else {
+				resp.setStatus(404);
+				return;
+			}
 		} else if (uriArray.length == 2) {
 			if (IntegerParser.isInteger(uriArray[1])) {
-				try {
-					Reimbursement reimbursement = rs.findById(Integer.valueOf(uriArray[1]));
+				Reimbursement reimbursement = rs.findById(Integer.valueOf(uriArray[1]));
+				if (reimbursement != null) {
 					ResponseMapper.convertAndAttach(reimbursement, resp);
 					return;
-				} catch (ArrayIndexOutOfBoundsException e) {
+				} else {
 					resp.setStatus(404);
 					return;
 				}
@@ -71,8 +76,13 @@ public class ReimbursementController {
 				}
 			} else if ("status".equals(uriArray[1])) {
 				if (IntegerParser.isInteger(uriArray[2])) {
-					List<Reimbursement> reimbursements = rs.findAllByStatus(ReimbursementStatus.getStatus(Integer.valueOf(uriArray[2])));
-					ResponseMapper.convertAndAttach(reimbursements, resp);
+					try {
+						List<Reimbursement> reimbursements = rs.findAllByStatus(ReimbursementStatus.getStatus(Integer.valueOf(uriArray[2])));
+						ResponseMapper.convertAndAttach(reimbursements, resp);
+					} catch (ArrayIndexOutOfBoundsException e) {
+						resp.setStatus(404);
+						return;
+					}
 				} else {
 					resp.setStatus(404);
 					return;
@@ -105,13 +115,22 @@ public class ReimbursementController {
 			resp.setStatus(201);
 			return;
 		} else if (uriArray.length == 3) {
-			if (IntegerParser.isInteger(uriArray[2])) {
-				int id = rs.findById(Integer.valueOf(uriArray[2])).getId();
-				ReimbursementStatus status = ReimbursementStatus.parseString(req.getParameter("ReimbursementStatus"));
-				rs.resolveReimbursement(id, status, Integer.valueOf(req.getParameter("userID")));
-				resp.getWriter().write("" + id + ", " + status);
-				resp.setStatus(201);
-				return;
+			if ("status".equals(uriArray[1])) {
+				if (IntegerParser.isInteger(uriArray[2])) {
+					try {
+						int id = rs.findById(Integer.valueOf(uriArray[2])).getId();
+						rs.resolveReimbursement(id, ReimbursementStatus.parseString(req.getParameter("ReimbursementStatus")), Integer.valueOf(req.getParameter("userID")));
+						resp.getWriter().write("" + id + ", " + req.getParameter("ReimbursementStatus"));
+						resp.setStatus(201);
+						return;
+					} catch (ArrayIndexOutOfBoundsException e) {
+						resp.setStatus(404);
+						return;
+					}
+				} else {
+					resp.setStatus(404);
+					return;
+				}
 			} else {
 				resp.setStatus(404);
 				return;

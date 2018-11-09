@@ -15,7 +15,7 @@ public interface ReimbursementService {
 	
 	List<Reimbursement> findAll();
 	List<Reimbursement> findAllByUser(User user);
-	List<Reimbursement> findAllByStatus(ReimbursementStatus status);
+	List<Reimbursement> findAllByStatus(ReimbursementStatus status) throws ArrayIndexOutOfBoundsException ;
 	
 	void resolveReimbursement(int id, ReimbursementStatus status, int userId);
 	

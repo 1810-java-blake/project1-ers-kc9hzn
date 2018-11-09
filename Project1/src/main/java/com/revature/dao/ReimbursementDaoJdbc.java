@@ -75,7 +75,7 @@ public class ReimbursementDaoJdbc implements ReimbursementDao {
 	}
 
 	@Override
-	public List<Reimbursement> findAllByStatus(ReimbursementStatus status) {
+	public List<Reimbursement> findAllByStatus(ReimbursementStatus status) throws ArrayIndexOutOfBoundsException {
 		int id = ReimbursementStatus.getIndex(status);
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM ers_reimbursement WHERE reimb_status_id = ?");
@@ -113,7 +113,6 @@ public class ReimbursementDaoJdbc implements ReimbursementDao {
 
 	@Override
 	public int save(Reimbursement newReimbursement) {
-		// TODO Auto-generated method stub
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(
 					"INSERT INTO ers_reimbursement (reimb_amount, reimb_submitted, reimb_resolved, reimb_description, reimb_receipt, "
@@ -131,7 +130,7 @@ public class ReimbursementDaoJdbc implements ReimbursementDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		// POST /
+		// POST /Project1/reimbursements/
 		return 0;
 	}
 
