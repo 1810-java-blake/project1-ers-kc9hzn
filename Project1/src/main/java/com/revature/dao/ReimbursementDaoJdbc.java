@@ -1,17 +1,20 @@
 package com.revature.dao;
 
 import java.sql.Connection;
+import java.sql.JDBCType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
+import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 import com.revature.model.Reimbursement;
 import com.revature.model.ReimbursementStatus;
 import com.revature.model.ReimbursementType;
 import com.revature.model.User;
-import com.revature.dao.UserDao;
 import com.revature.util.ConnectionUtil;
 
 public class ReimbursementDaoJdbc implements ReimbursementDao {
@@ -48,6 +51,7 @@ public class ReimbursementDaoJdbc implements ReimbursementDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		// GET /
 		return null;
 	}
 
@@ -91,13 +95,44 @@ public class ReimbursementDaoJdbc implements ReimbursementDao {
 
 	@Override
 	public void resolveReimbursement(int id, ReimbursementStatus status) {
-		// TODO Auto-generated method stub
+		GregorianCalendar cal = new GregorianCalendar();
+		String timestamp = cal.get(Calendar.YEAR) + "-" + cal.get(Calendar.MONTH) + "-" + cal.get(Calendar.DATE) + " ";
+		timestamp = timestamp + cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
+		try (Connection conn = ConnectionUtil.getConnection()) {
+			PreparedStatement ps = conn.prepareStatement(
+					"UPDATE ers_reimbursement SET (reimb_resolved, reimb_status_id) "+ 
+					"= (?, ?) WHERE reimb_id = ?");
+			ps.setString(1, timestamp);
+			ps.setInt(2, ReimbursementStatus.getIndex(status));
+			ps.setInt(3, id);
+			ps.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		// POST /status/{id}
 	}
 
 	@Override
 	public int save(Reimbursement newReimbursement) {
 		// TODO Auto-generated method stub
+		try (Connection conn = ConnectionUtil.getConnection()) {
+			PreparedStatement ps = conn.prepareStatement(
+					"INSERT INTO ers_reimbursement (reimb_amount, reimb_submitted, reimb_resolved, reimb_description, reimb_receipt"
+					+ " reimb_author, reimb_resolver, reimb_status_id, reimb_type_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			ps.setDouble(1, newReimbursement.getAmount());
+			ps.setString(2, newReimbursement.getSubmitted());
+			ps.setString(3, newReimbursement.getResolved());
+			ps.setString(4, newReimbursement.getDescription());
+			ps.setString(5, newReimbursement.getReceipt());
+			ps.setInt(6, newReimbursement.getAuthor().getId());
+			ps.setNull(7, Types.INTEGER);
+			ps.setInt(8, ReimbursementStatus.getIndex(newReimbursement.getStatus()));
+			ps.setInt(9, ReimbursementType.getIndex(newReimbursement.getType()));
+			ps.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		// POST /
 		return 0;
 	}
