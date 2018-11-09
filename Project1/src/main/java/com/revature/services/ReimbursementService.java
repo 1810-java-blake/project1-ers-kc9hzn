@@ -11,13 +11,13 @@ import com.revature.model.User;
 public interface ReimbursementService {
 	ReimbursementService currentImplementation = new ReimbursementServiceImpl();
 	
-	Reimbursement findById(int id);
+	Reimbursement findById(int id) throws ArrayIndexOutOfBoundsException;
 	
 	List<Reimbursement> findAll();
 	List<Reimbursement> findAllByUser(User user);
 	List<Reimbursement> findAllByStatus(ReimbursementStatus status);
 	
-	void resolveReimbursement(int id, ReimbursementStatus status);
+	void resolveReimbursement(int id, ReimbursementStatus status, int userId);
 	
 	int save(Reimbursement newReimbursement);
 }

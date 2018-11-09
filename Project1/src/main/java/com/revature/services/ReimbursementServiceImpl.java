@@ -11,7 +11,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
 	private ReimbursementDao rd = ReimbursementDao.currentImplementation;
 	
 	@Override
-	public Reimbursement findById(int id) {
+	public Reimbursement findById(int id) throws ArrayIndexOutOfBoundsException {
 		return rd.findById(id);
 	}
 
@@ -31,8 +31,8 @@ public class ReimbursementServiceImpl implements ReimbursementService {
 	}
 
 	@Override
-	public void resolveReimbursement(int id, ReimbursementStatus status) {
-		
+	public void resolveReimbursement(int id, ReimbursementStatus status, int userId) {
+		rd.resolveReimbursement(id, status, userId);
 	}
 
 	@Override

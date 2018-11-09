@@ -1,14 +1,12 @@
 package com.revature.dao;
 
 import java.sql.Connection;
-import java.sql.JDBCType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.revature.model.Reimbursement;
@@ -24,16 +22,18 @@ public class ReimbursementDaoJdbc implements ReimbursementDao {
 	}
 	
 	@Override
-	public Reimbursement findById(int id) {
+	public Reimbursement findById(int id) throws ArrayIndexOutOfBoundsException {
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM ers_reimbursement WHERE reimb_id = ?");
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
-			return extractFromResultSet(rs);
+			if (rs.next()) {
+				return extractFromResultSet(rs);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		// GET /{id}
+		// GET /Project1/reimbursements/{id}
 		return null;
 	}
 
@@ -51,7 +51,7 @@ public class ReimbursementDaoJdbc implements ReimbursementDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		// GET /
+		// GET /Project1/reimbursements/
 		return null;
 	}
 
@@ -70,7 +70,7 @@ public class ReimbursementDaoJdbc implements ReimbursementDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		// GET /user/{id}
+		// GET /Project1/reimbursements/user/{id}
 		return null;
 	}
 
@@ -89,28 +89,26 @@ public class ReimbursementDaoJdbc implements ReimbursementDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		// GET /status/{id}
+		// GET /Project1/reimbursements/status/{id}
 		return null;
 	}
 
 	@Override
-	public void resolveReimbursement(int id, ReimbursementStatus status) {
-		GregorianCalendar cal = new GregorianCalendar();
-		String timestamp = cal.get(Calendar.YEAR) + "-" + cal.get(Calendar.MONTH) + "-" + cal.get(Calendar.DATE) + " ";
-		timestamp = timestamp + cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
+	public void resolveReimbursement(int id, ReimbursementStatus status, int userId) {
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(
-					"UPDATE ers_reimbursement SET (reimb_resolved, reimb_status_id) "+ 
-					"= (?, ?) WHERE reimb_id = ?");
-			ps.setString(1, timestamp);
-			ps.setInt(2, ReimbursementStatus.getIndex(status));
-			ps.setInt(3, id);
+					"UPDATE ers_reimbursement SET (reimb_resolved, reimb_resolver, reimb_status_id) "+ 
+					"= (?, ?, ?) WHERE reimb_id = ?");
+			ps.setTimestamp(1, timestamp);
+			ps.setInt(2, userId);
+			ps.setInt(3, ReimbursementStatus.getIndex(status));
+			ps.setInt(4, id);
 			ps.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		// POST /status/{id}
+		// POST /Project1/reimbursements/status/{id}
 	}
 
 	@Override
@@ -118,11 +116,11 @@ public class ReimbursementDaoJdbc implements ReimbursementDao {
 		// TODO Auto-generated method stub
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(
-					"INSERT INTO ers_reimbursement (reimb_amount, reimb_submitted, reimb_resolved, reimb_description, reimb_receipt"
+					"INSERT INTO ers_reimbursement (reimb_amount, reimb_submitted, reimb_resolved, reimb_description, reimb_receipt, "
 					+ " reimb_author, reimb_resolver, reimb_status_id, reimb_type_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			ps.setDouble(1, newReimbursement.getAmount());
-			ps.setString(2, newReimbursement.getSubmitted());
-			ps.setString(3, newReimbursement.getResolved());
+			ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+			ps.setNull(3, Types.TIMESTAMP);
 			ps.setString(4, newReimbursement.getDescription());
 			ps.setString(5, newReimbursement.getReceipt());
 			ps.setInt(6, newReimbursement.getAuthor().getId());

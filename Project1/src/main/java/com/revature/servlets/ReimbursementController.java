@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.revature.model.Reimbursement;
 import com.revature.model.ReimbursementStatus;
+import com.revature.model.ReimbursementType;
 import com.revature.services.ReimbursementService;
 import com.revature.services.UserService;
 import com.revature.util.IntegerParser;
@@ -46,9 +47,14 @@ public class ReimbursementController {
 			return;
 		} else if (uriArray.length == 2) {
 			if (IntegerParser.isInteger(uriArray[1])) {
-				Reimbursement reimbursement = rs.findById(Integer.valueOf(uriArray[1]));
-				ResponseMapper.convertAndAttach(reimbursement, resp);
-				return;
+				try {
+					Reimbursement reimbursement = rs.findById(Integer.valueOf(uriArray[1]));
+					ResponseMapper.convertAndAttach(reimbursement, resp);
+					return;
+				} catch (ArrayIndexOutOfBoundsException e) {
+					resp.setStatus(404);
+					return;
+				}
 			} else {
 				resp.setStatus(404);
 				return;
@@ -86,17 +92,23 @@ public class ReimbursementController {
 		String context = "Project1";
 		uri = uri.substring(context.length() + 2, uri.length());
 		String[] uriArray = uri.split("/");
+		System.out.println(uri);
 		if (uriArray.length == 1) {
-			Reimbursement r = om.readValue(req.getReader(), Reimbursement.class);
+			System.out.println("arrived");
+			Reimbursement r = new Reimbursement(0, Double.parseDouble(req.getParameter("amount")),
+					req.getParameter("submitted"), "", req.getParameter("description"),
+					req.getParameter("receipt"), us.getUserById(Integer.valueOf(req.getParameter("author"))), us.getUserById(0),
+					ReimbursementStatus.getStatus(Integer.valueOf(req.getParameter("status"))),
+					ReimbursementType.getType(Integer.valueOf(req.getParameter("type"))));
 			rs.save(r);
 			resp.getWriter().write("" + r.getId());
 			resp.setStatus(201);
 			return;
-		} else if (uriArray.length == 2) {
-			if (IntegerParser.isInteger(uriArray[1])) {
-				int id = rs.findById(Integer.valueOf(uriArray[1])).getId();
-				ReimbursementStatus status = om.readValue(req.getReader(), ReimbursementStatus.class);
-				rs.resolveReimbursement(id, status);
+		} else if (uriArray.length == 3) {
+			if (IntegerParser.isInteger(uriArray[2])) {
+				int id = rs.findById(Integer.valueOf(uriArray[2])).getId();
+				ReimbursementStatus status = ReimbursementStatus.parseString(req.getParameter("ReimbursementStatus"));
+				rs.resolveReimbursement(id, status, Integer.valueOf(req.getParameter("userID")));
 				resp.getWriter().write("" + id + ", " + status);
 				resp.setStatus(201);
 				return;
