@@ -6,7 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.revature.dto.ReimbursementResolver;
 import com.revature.model.Reimbursement;
 import com.revature.model.ReimbursementStatus;
 import com.revature.model.ReimbursementType;
@@ -29,6 +29,8 @@ public class ReimbursementController {
 				break;
 			case "POST":
 				processPost(req, resp);
+				break;
+			case "OPTIONS":
 				break;
 			default:
 				resp.setStatus(404);
@@ -105,11 +107,7 @@ public class ReimbursementController {
 		System.out.println(uri);
 		if (uriArray.length == 1) {
 			System.out.println("arrived");
-			Reimbursement r = new Reimbursement(0, Double.parseDouble(req.getParameter("amount")),
-					req.getParameter("submitted"), "", req.getParameter("description"),
-					req.getParameter("receipt"), us.getUserById(Integer.valueOf(req.getParameter("author"))), us.getUserById(0),
-					ReimbursementStatus.getStatus(Integer.valueOf(req.getParameter("status"))),
-					ReimbursementType.getType(Integer.valueOf(req.getParameter("type"))));
+			Reimbursement r = om.readValue(req.getReader(), Reimbursement.class);
 			rs.save(r);
 			resp.getWriter().write("" + r.getId());
 			resp.setStatus(201);
@@ -119,8 +117,9 @@ public class ReimbursementController {
 				if (IntegerParser.isInteger(uriArray[2])) {
 					try {
 						int id = rs.findById(Integer.valueOf(uriArray[2])).getId();
-						rs.resolveReimbursement(id, ReimbursementStatus.parseString(req.getParameter("ReimbursementStatus")), Integer.valueOf(req.getParameter("userID")));
-						resp.getWriter().write("" + id + ", " + req.getParameter("ReimbursementStatus"));
+						ReimbursementResolver resolver = om.readValue(req.getReader(), ReimbursementResolver.class);
+						rs.resolveReimbursement(resolver.getId(), resolver.getStatus(), resolver.getUserId());
+						resp.getWriter().write("" + id + ", " + resolver.getStatus());
 						resp.setStatus(201);
 						return;
 					} catch (ArrayIndexOutOfBoundsException e) {

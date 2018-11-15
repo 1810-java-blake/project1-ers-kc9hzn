@@ -13,13 +13,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean login(String username, String password, HttpSession httpSession) {
+	public User login(String username, String password, HttpSession httpSession) {
 		User u = ud.findByUsernameAndPassword(username, password);
 		if (u != null) {
 			
-			return true;
+			return u;
 		}
-		return false;
+		return null;
 	}
 
 }

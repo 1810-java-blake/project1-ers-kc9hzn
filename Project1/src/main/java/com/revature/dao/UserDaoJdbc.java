@@ -28,7 +28,7 @@ public class UserDaoJdbc implements UserDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		// GET /{id}
+		// GET /Project1/users/{id}
 		return null;
 	}
 
@@ -47,7 +47,7 @@ public class UserDaoJdbc implements UserDao {
 		} catch (SQLException e) {
 			
 		}
-		// POST /login
+		// POST /Project1/users/login
 		return null;
 	}
 }

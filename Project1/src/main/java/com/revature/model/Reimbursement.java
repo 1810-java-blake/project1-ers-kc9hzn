@@ -1,7 +1,7 @@
 package com.revature.model;
 
 public class Reimbursement {
-	private final int id;
+	private int id;
 	private double amount;
 	private String submitted;
 	private String resolved;
@@ -12,6 +12,10 @@ public class Reimbursement {
 	private ReimbursementStatus status;
 	private ReimbursementType type;
 
+	public Reimbursement() {
+		super();
+	}
+	
 	public Reimbursement(int id, double amount, String submitted, String resolved, String description, String receipt,
 			User author, User resolver, ReimbursementStatus status, ReimbursementType type) {
 		super();

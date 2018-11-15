@@ -16,8 +16,8 @@ public class DispatcherServlet extends HttpServlet {
 	
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.addHeader("Access-Control-Allow-Origin", "http://localhost:9001");
-		resp.addHeader("Access-Control-Allow-Methods", "POST, GET");
+		resp.addHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+		resp.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
 		resp.addHeader("Access-Control-Allow-Headers", "Origin, Methods, Credentials, X-Requested-With, Content-Type, Accept");
 		resp.addHeader("Access-Control-Allow-Credentials", "true");
 		resp.setContentType("application/json");

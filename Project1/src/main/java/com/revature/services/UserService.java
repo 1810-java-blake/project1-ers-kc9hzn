@@ -15,5 +15,5 @@ public interface UserService {
 
 	User getUserById(int id);
 	
-	boolean login(String username, String password, HttpSession httpSession);
+	User login(String username, String password, HttpSession httpSession);
 }

@@ -22,18 +22,20 @@ public enum ReimbursementStatus {
 	
 	
 	
-	public static ReimbursementStatus parseString(String s) {
-		switch (s) {
-			case "PENDING":
-				return ReimbursementStatus.valueOf("PENDING");
-			case "APPROVED":
-				return ReimbursementStatus.valueOf("APPROVED");
-			case "DENIED":
-				return ReimbursementStatus.valueOf("DENIED");
-			default:
-				return null;
-		}
-	}
+//	public static ReimbursementStatus parseString(String s) {
+//		switch (s) {
+//			case "PENDING":
+//				return ReimbursementStatus.valueOf("PENDING");
+//			case "APPROVED":
+//				return ReimbursementStatus.valueOf("APPROVED");
+//			case "DENIED":
+//				return ReimbursementStatus.valueOf("DENIED");
+//			default:
+//				return null;
+//		}
+//	}
+	
+	
 }
 
 
