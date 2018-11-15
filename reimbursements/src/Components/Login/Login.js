@@ -11,7 +11,8 @@ export class Login extends React.Component {
         this.state = {
             username: '',
             password: '',
-            user: ''
+            user: '',
+            userObject: {}
         }
     }
 
@@ -54,12 +55,16 @@ export class Login extends React.Component {
             }
         })
         .then(function (response) {
-            // console.log(response.data);
+            console.log(response.data);
             window.sessionStorage.setItem("id", response.data.id);
             window.sessionStorage.setItem("username", response.data.username);
+            window.sessionStorage.setItem("password", response.data.password);
             window.sessionStorage.setItem("firstName", response.data.firstName);
             window.sessionStorage.setItem("lastName", response.data.lastName);
+            window.sessionStorage.setItem("email", response.data.email);
             window.sessionStorage.setItem("userRole", response.data.userRole);
+
+            window.sessionStorage.setItem("userObject", response.data);
 
             // console.log("Welcome " + response.data.username);
             if (response.data.userRole === "ADMIN") {

@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.dto.ReimbursementResolver;
 import com.revature.model.Reimbursement;
 import com.revature.model.ReimbursementStatus;
-import com.revature.model.ReimbursementType;
 import com.revature.services.ReimbursementService;
 import com.revature.services.UserService;
 import com.revature.util.IntegerParser;
@@ -106,7 +105,6 @@ public class ReimbursementController {
 		String[] uriArray = uri.split("/");
 		System.out.println(uri);
 		if (uriArray.length == 1) {
-			System.out.println("arrived");
 			Reimbursement r = om.readValue(req.getReader(), Reimbursement.class);
 			rs.save(r);
 			resp.getWriter().write("" + r.getId());

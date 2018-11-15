@@ -9,6 +9,10 @@ import {Login} from './Components/Login/Login.js';
 import {UserRoles} from './Components/UserRoles/UserRoles.js';
 import {ViewReimbursements} from './Components/Reimbursements/ViewReimbursements.js';
 import {AddReimbursement} from './Components/Reimbursements/AddReimbursement.js';
+import {ApprovedReimbursements} from './Components/Reimbursements/ApprovedReimbursements.js';
+import {DeniedReimbursements} from './Components/Reimbursements/DeniedReimbursements.js';
+import {PendingReimbursements} from './Components/Reimbursements/PendingReimbursements.js';
+import {Error} from './Components/Error/Error.js';
 
 class App extends Component {
   render() {
@@ -23,6 +27,10 @@ class App extends Component {
             <Route path="/userRoles" component={UserRoles} />
             <Route path="/reimbursements" component={ViewReimbursements}/>
             <Route path="/add" component={AddReimbursement} />
+            <Route path="/approved" component={ApprovedReimbursements} />
+            <Route path="/denied" component={DeniedReimbursements} />
+            <Route path="/pending" component={PendingReimbursements} />
+            <Route path="/error" component={Error} />
             <Route path="/" component={Login} />
           </Switch>
         </BrowserRouter>

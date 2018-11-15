@@ -40,9 +40,12 @@ export class Header extends React.Component {
         event.preventDefault();
         window.sessionStorage.setItem("id", null);
         window.sessionStorage.setItem("username", null);
+        window.sessionStorage.setItem("password", null);
         window.sessionStorage.setItem("firstName", null);
         window.sessionStorage.setItem("lastName", null);
+        window.sessionStorage.setItem("email", null);
         window.sessionStorage.setItem("userRole", null);
+        window.sessionStorage.setItem("userObject", null);
         window.location.href = "/login";
     }
 }

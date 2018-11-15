@@ -1,4 +1,7 @@
 package com.revature.model;
+import java.io.IOException;
+
+import  com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Reimbursement {
 	private int id;
@@ -91,6 +94,17 @@ public class Reimbursement {
 		return author;
 	}
 
+//	public void setAuthor(String author) {
+//		ObjectMapper om = new ObjectMapper();
+//		try {
+//			User user = om.readValue(author, User.class);
+//			this.setAuthor(user);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+	
 	public void setAuthor(User author) {
 		this.author = author;
 	}
@@ -99,6 +113,17 @@ public class Reimbursement {
 		return resolver;
 	}
 
+//	public void setResolver(String resolver) {
+//		ObjectMapper om = new ObjectMapper();
+//		try {
+//			User user = om.readValue(resolver, User.class);
+//			this.setAuthor(user);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+	
 	public void setResolver(User resolver) {
 		this.resolver = resolver;
 	}

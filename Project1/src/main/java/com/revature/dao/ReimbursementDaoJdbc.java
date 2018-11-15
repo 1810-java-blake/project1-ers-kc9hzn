@@ -122,11 +122,13 @@ public class ReimbursementDaoJdbc implements ReimbursementDao {
 			ps.setNull(3, Types.TIMESTAMP);
 			ps.setString(4, newReimbursement.getDescription());
 			ps.setString(5, newReimbursement.getReceipt());
+			System.out.println(newReimbursement.getAuthor());
 			ps.setInt(6, newReimbursement.getAuthor().getId());
 			ps.setNull(7, Types.INTEGER);
 			ps.setInt(8, ReimbursementStatus.getIndex(newReimbursement.getStatus()));
 			ps.setInt(9, ReimbursementType.getIndex(newReimbursement.getType()));
 			ps.executeQuery();
+			return 1;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -11,6 +11,22 @@ export class ViewReimbursements extends React.Component {
             reimbursements: [
             ]
         }
+        this.resolver = this.resolver.bind(this);
+    }
+
+    resolver(e, res) {
+        e.preventDefault();
+        switch(res) {
+            case "APPROVED":
+                window.location.href = "/approved"
+                break;
+            case "DENIED":
+                    window.location.href = "/denied"
+                break;
+            case "PENDING":
+                    window.location.href = "/pending"
+                break;
+        }
     }
     
     componentDidMount() {
@@ -94,6 +110,19 @@ export class ViewReimbursements extends React.Component {
             )
         } else {
             return (
+                <>
+                <div className='form-group'>
+                            <div className="dropdown">
+                                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Filter By Status
+                                </button>
+                                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <button className="dropdown-item" onClick={(e) => this.resolver(e, "APPROVED")}>Approved</button>
+                                    <button className="dropdown-item" onClick={(e) => this.resolver(e, "DENIED")}>Denied</button>
+                                    <button className="dropdown-item" onClick={(e) => this.resolver(e, "PENDING")}>Pending</button>
+                                </div>
+                            </div>
+                        </div>
                 <div>
                     <div>
                     <table className="table">
@@ -141,6 +170,7 @@ export class ViewReimbursements extends React.Component {
                     </table>
                 </div>
                 </div>
+                </>
             )
         }
     }
