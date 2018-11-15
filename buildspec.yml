@@ -1,10 +1,10 @@
 version: 0.2
 
 phases:
-	post_build:
-		commands:
-			- mvn clean build
+  post_build:
+    commands:
+      - mvn package
 artifacts:
-	files:
-		- '**/*'
-	base-directory: 'Project1/Project1'
+  files:
+    - '**/*'
+  base-directory: '/Project1'
