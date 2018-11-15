@@ -3,7 +3,7 @@ version: 0.2
 phases:
   post_build:
     commands:
-      - mvn package
+      - mvn clean package
 artifacts:
   files:
     - '**/*'
