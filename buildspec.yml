@@ -1,0 +1,10 @@
+version: 0.2
+
+phases:
+	post_build:
+		commands:
+			- mvn clean build
+artifacts:
+	files:
+		- '**/*'
+	base-directory: 'Project1/Project1'
