@@ -36,9 +36,7 @@ export class Login extends React.Component {
                     <input type='password' className='form-control' id='passwordInput' placeholder='Password' value={this.state.password} onChange={(e) => this.handlePassword(e)}/>
                 </div>
                 <div className='form-group'>
-                    {/* <Link to='/reimbursements'> */}
-                        <button type="button" className="btn btn-primary" onClick={this.login}>Sign In</button>
-                    {/* </Link> */}
+                    <button type="button" className="btn btn-primary" onClick={this.login}>Sign In</button>
                 </div>
             </form>
         )

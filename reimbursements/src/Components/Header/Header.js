@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {withRouter} from 'react-router';
+import BackButton from './BackButton.js';
+import {Switch, Route} from 'react-router-dom';
 
 export class Header extends React.Component {
     constructor(props) {
@@ -13,21 +15,16 @@ export class Header extends React.Component {
             <div>
                 <nav className="navbar navbar-toggleable-md navbar-expand-lg navbar-light bg-light display-front nav-pad">
                     <div>
-                        {
-                            (this.props.location.pathname !== '/') &&
-                                <Link to="/">
-                                    <button type="button" className="btn btn-outline-dark" onClick={() => { this.props.history.goBack() }}>Back</button>
-                                </Link>
-                        }
+                        <BackButton />
                     </div>
                     <div>
-                        <span className="label">Reimbursements</span>
+                        <span className="label" id="header-label">Reimbursements</span>
                     </div>
                     <div>
                         {
-                            (this.props.location.pathname !== '/') &&
+                            (this.props.location.pathname !== '/' && this.props.location.pathname !== '/login') &&
                                 <Link to="/login">
-                                    <button type="button" className="btn btn-outline-danger" onClick={(event) => {this.signOut(event)}}>Sign Out</button>
+                                    <button type="button" id="header-right-button" className="btn btn-outline-danger" onClick={(event) => {this.signOut(event)}}>Sign Out</button>
                                 </Link>
                         }
                     </div>

@@ -13,6 +13,7 @@ import {ApprovedReimbursements} from './Components/Reimbursements/ApprovedReimbu
 import {DeniedReimbursements} from './Components/Reimbursements/DeniedReimbursements.js';
 import {PendingReimbursements} from './Components/Reimbursements/PendingReimbursements.js';
 import {Error} from './Components/Error/Error.js';
+import {FourOFour} from './Components/Error/FourOFour.js';
 
 class App extends Component {
   render() {
@@ -31,7 +32,10 @@ class App extends Component {
             <Route path="/denied" component={DeniedReimbursements} />
             <Route path="/pending" component={PendingReimbursements} />
             <Route path="/error" component={Error} />
-            <Route path="/" component={Login} />
+            {(window.location.pathname === "/" || window.location.pathname === "/login")
+              ? <Route component={Login} />
+              : <Route component={FourOFour} />
+            }
           </Switch>
         </BrowserRouter>
       </div>

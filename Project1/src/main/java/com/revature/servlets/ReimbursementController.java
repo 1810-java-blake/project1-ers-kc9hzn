@@ -103,7 +103,6 @@ public class ReimbursementController {
 		String context = "Project1";
 		uri = uri.substring(context.length() + 2, uri.length());
 		String[] uriArray = uri.split("/");
-		System.out.println(uri);
 		if (uriArray.length == 1) {
 			Reimbursement r = om.readValue(req.getReader(), Reimbursement.class);
 			rs.save(r);

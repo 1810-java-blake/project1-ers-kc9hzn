@@ -93,17 +93,6 @@ public class Reimbursement {
 	public User getAuthor() {
 		return author;
 	}
-
-//	public void setAuthor(String author) {
-//		ObjectMapper om = new ObjectMapper();
-//		try {
-//			User user = om.readValue(author, User.class);
-//			this.setAuthor(user);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
 	
 	public void setAuthor(User author) {
 		this.author = author;
@@ -112,17 +101,6 @@ public class Reimbursement {
 	public User getResolver() {
 		return resolver;
 	}
-
-//	public void setResolver(String resolver) {
-//		ObjectMapper om = new ObjectMapper();
-//		try {
-//			User user = om.readValue(resolver, User.class);
-//			this.setAuthor(user);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
 	
 	public void setResolver(User resolver) {
 		this.resolver = resolver;

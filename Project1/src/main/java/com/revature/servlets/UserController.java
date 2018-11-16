@@ -37,9 +37,7 @@ public class UserController {
 		uri = uri.substring(context.length() + 2, uri.length());
 		String[] uriArray = uri.split("/");
 		if (uriArray.length == 2) {
-			System.out.println("test2");
 			if ("login".equals(uriArray[1])) {
-				System.out.println("test3");
 				Credential c = om.readValue(req.getReader(), Credential.class);
 				User user = us.login(c.getUsername(), c.getPassword(), req.getSession());
 				if (user == null) {
